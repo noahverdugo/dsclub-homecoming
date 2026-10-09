@@ -3,98 +3,98 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Correlation game</title>
+  <title>Correlation Game</title>
+
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #1c2430;
-      --muted: #5c6b7a;
-      --line: #d5dde6;
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --blue: #1d4e89;
-      --blue-dark: #163e6e;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      color: var(--ink);
-      background: var(--bg);
-    }
-    main {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 28px 20px 48px;
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 2rem;
-    }
-    .prompt {
-      margin: 0 0 18px;
-      font-size: 1.35rem;
-      line-height: 1.35;
-    }
-    .choices {
-      display: grid;
-      gap: 12px;
-    }
-    button.choice, button.again {
-      font: inherit;
-      font-size: 1.35rem;
-      text-align: left;
-      padding: 18px 20px;
-      border-radius: 12px;
-      border: 2px solid var(--blue);
-      background: var(--card);
-      color: var(--ink);
-      cursor: pointer;
-    }
-    button.choice:hover, button.again:hover {
-      background: var(--blue);
-      color: white;
-    }
-    .result {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 18px;
-    }
-    canvas {
-      width: 100%;
-      height: auto;
-      background: white;
-    }
-    .corr {
-      font-size: 1.8rem;
-      margin: 14px 0 6px;
-    }
-    .prize {
-      font-size: 1.6rem;
-      margin: 0 0 16px;
-      font-weight: bold;
-    }
-    .prize.big { color: #0d7a3f; }
-    .prize.small { color: #8a5a00; }
-    .prize.none { color: var(--muted); }
-    .hidden { display: none; }
-    .error { color: #9b1c1c; }
+    :root{color-scheme:dark;--muted:#aeb5cf;--gold:#f8cc73;--green:#70e4bb}
+    *{box-sizing:border-box}body{margin:0;height:100svh;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#30234e,transparent 75%),#090b17;color:#f5f3ff;font-family:system-ui,sans-serif}
+    main{height:100%;padding:clamp(8px,2vmin,20px);max-width:1400px;margin:auto}
+    .game-card{height:100%;min-height:0;display:flex;flex-direction:column;padding:clamp(14px,3vmin,32px);border:1px solid #ffffff17;border-radius:22px;background:linear-gradient(145deg,#1c1c33,#121626);box-shadow:0 20px 60px #0003}
+    .prompt{flex-shrink:0;text-align:center;font-size:clamp(24px,4.5vmin,48px);line-height:1.15;font-weight:750;letter-spacing:-.025em;margin:0 0 clamp(12px,3vmin,28px);overflow-wrap:anywhere}
+    .choices{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:clamp(10px,2vmin,20px)}
+    button{font:inherit;touch-action:manipulation;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .choice{padding:clamp(12px,2vmin,24px);border:1px solid #baacff40;border-radius:16px;background:linear-gradient(140deg,#a595ff13,#ffffff03);color:#fff;font-size:clamp(23px,4vmin,42px);font-weight:650;line-height:1.15;overflow-wrap:anywhere;transition:background .15s,transform .15s}
+    .choice:active{background:#a595ff35;transform:scale(.98)}button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+    .hint:empty{display:none}.hint{font-size:clamp(20px,3vmin,28px);text-align:center;color:var(--muted)}
+    .result{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:clamp(12px,2vmin,22px);animation:reveal .3s ease}
+    .plot-wrap{min-height:0;min-width:0;display:flex;align-items:center;border:1px solid #ffffff15;border-radius:16px;overflow:hidden;background:#101526}
+    canvas{display:block;width:100%;height:100%;object-fit:contain}
+    .score-card{min-height:0;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:clamp(10px,2vmin,24px);border-radius:16px;background:#ffffff04;border:1px solid #ffffff10}
+    .corr{margin:0;color:var(--muted);font-size:clamp(18px,3vmin,28px)}.corr strong{display:block;color:#fff;font-size:clamp(42px,9vmin,90px);line-height:1.15;letter-spacing:-.04em;margin-top:8px}
+    .prize{font-size:clamp(23px,4vmin,38px);font-weight:750;line-height:1.2;margin:16px 0 0}.big{color:var(--gold)}.small{color:var(--green)}.none{color:var(--muted)}
+    #best{font-size:clamp(18px,2.8vmin,27px);color:var(--muted);margin:16px 0 0;overflow-wrap:anywhere}#best:empty{display:none}
+    .again{grid-column:1/-1;border:0;border-radius:14px;background:linear-gradient(135deg,#a18af8,#7661ec);color:#fff;font-weight:750;font-size:clamp(24px,4vmin,38px);padding:clamp(14px,2.5vmin,24px)}.again:active{filter:brightness(1.15)}
+    .hidden{display:none!important}.choices:empty{display:none}.celebrate{animation:celebrate .6s ease}.particle{position:fixed;top:-24px;width:8px;height:12px;pointer-events:none;z-index:10;will-change:transform;animation:fall var(--duration,3s) linear var(--delay,0s) both}
+    @keyframes fall{0%{transform:translate3d(0,-20px,0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate3d(var(--drift,0px),calc(100svh + 50px),0) rotate(var(--spin,650deg));opacity:0}}@keyframes reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@keyframes celebrate{50%{border-color:var(--gold)}}
+    @media(orientation:portrait){.result{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.score-card{padding:12px}.corr strong{display:inline;margin-left:12px;font-size:clamp(36px,7vmin,64px)}.prize{margin-top:6px}#best{margin-top:6px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.particle{display:none}}
   </style>
 </head>
+
 <body>
   <main>
-    <h1>Correlation game</h1>
-    <p class="prompt" id="prompt">Loading the four variables…</p>
-    <div class="choices" id="choices"></div>
-    <section class="result hidden" id="result">
-      <canvas id="plot" width="800" height="480"></canvas>
-      <p class="corr" id="corr"></p>
-      <p class="prize" id="prize"></p>
-      <button class="again" id="again" type="button">Next player</button>
+
+
+    <section class="game-card">
+
+
+
+      <p class="prompt" id="prompt">
+        Loading the four variables…
+      </p>
+
+      <div class="choices" id="choices"></div><p class="hint" id="hint">Pick the variable your wheel landed on, or choose one to explore.</p>
+
+      <section class="result hidden" id="result">
+
+        <div class="plot-wrap">
+          <canvas id="plot" width="800" height="480"></canvas>
+        </div>
+
+        <div class="score-card">
+          <p class="corr">
+            Correlation
+            <strong id="corr"></strong>
+          </p>
+
+          <p class="prize" id="prize" aria-live="polite"></p><p id="best"></p>
+        </div>
+
+        <button class="again" id="again" type="button">
+          Next player →
+        </button>
+
+      </section>
     </section>
+
   </main>
+
   <script>
+    const $ = id => document.getElementById(id);
+    function confetti(){
+      if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+      document.querySelectorAll('.particle').forEach(el=>el.remove());
+      const colors=['#b5a1ff','#f8cc73','#66dcb6','#f591c1','#79cfff','#ffffff'];
+      const burst=document.createDocumentFragment();
+      for(let i=0;i<160;i++){
+        const el=document.createElement('i');
+        const delay=Math.floor(i/45)*.45+Math.random()*.35;
+        const duration=1+Math.random()*1.4;
+        el.className='particle';el.setAttribute('aria-hidden','true');
+        el.style.left=Math.random()*100+'vw';
+        el.style.background=colors[i%colors.length];
+        el.style.width=(5+Math.random()*7)+'px';
+        el.style.height=(7+Math.random()*10)+'px';
+        el.style.borderRadius=i%4===0?'50%':'2px';
+        el.style.setProperty('--delay',delay+'s');
+        el.style.setProperty('--duration',duration+'s');
+        el.style.setProperty('--drift',(Math.random()*400-200)+'px');
+        el.style.setProperty('--spin',(Math.random()>.5?1:-1)*(360+Math.random()*720)+'deg');
+        burst.appendChild(el);
+        setTimeout(()=>el.remove(),(delay+duration)*1000+100);
+      }
+      document.body.appendChild(burst);
+    }
     const MAX_CHOICES = 5;
 
     let table = null;
@@ -105,27 +105,46 @@
     const resultEl = document.getElementById("result");
     const corrEl = document.getElementById("corr");
     const prizeEl = document.getElementById("prize");
+    const gameCard = document.querySelector(".game-card");
 
     function parseCsv(text) {
-      const lines = text.trim().split(/\r?\n/).filter((line) => line.trim());
-      const headers = lines[0].split(",").map((cell) => cell.trim());
+      const lines = text.trim()
+        .split(/\r?\n/)
+        .filter(line => line.trim());
+
+      const headers = lines[0]
+        .split(",")
+        .map(cell => cell.trim());
+
       const variables = headers.slice(1);
       const years = [];
-      const series = Object.fromEntries(variables.map((name) => [name, []]));
+
+      const series = Object.fromEntries(
+        variables.map(name => [name, []])
+      );
 
       for (const line of lines.slice(1)) {
-        const cells = line.split(",").map((cell) => cell.trim());
+        const cells = line
+          .split(",")
+          .map(cell => cell.trim());
+
         years.push(Number(cells[0]));
+
         variables.forEach((name, index) => {
           series[name].push(Number(cells[index + 1]));
         });
       }
 
-      return { years, variables, series };
+      return {
+        years,
+        variables,
+        series
+      };
     }
 
     function pearson(xs, ys) {
       const n = xs.length;
+
       let sumX = 0;
       let sumY = 0;
       let sumXX = 0;
@@ -140,19 +159,29 @@
         sumXY += xs[i] * ys[i];
       }
 
-      const numerator = n * sumXY - sumX * sumY;
+      const numerator =
+        n * sumXY - sumX * sumY;
+
       const denominator = Math.sqrt(
-        (n * sumXX - sumX * sumX) * (n * sumYY - sumY * sumY)
+        (n * sumXX - sumX * sumX) *
+        (n * sumYY - sumY * sumY)
       );
-      return denominator === 0 ? 0 : numerator / denominator;
+
+      return denominator === 0
+        ? 0
+        : numerator / denominator;
     }
 
     function shuffled(items) {
       const copy = items.slice();
+
       for (let i = copy.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
+
+        [copy[i], copy[j]] =
+          [copy[j], copy[i]];
       }
+
       return copy;
     }
 
@@ -161,136 +190,325 @@
     }
 
     function addChoice(label, onClick) {
-      const button = document.createElement("button");
+      const button =
+        document.createElement("button");
+
       button.className = "choice";
       button.type = "button";
       button.textContent = label;
+
       button.addEventListener("click", onClick);
+
       choicesEl.appendChild(button);
     }
 
     function showWheelStep() {
+      $('hint').textContent='';
       wheelVariable = null;
+
       resultEl.classList.add("hidden");
       clearChoices();
-      promptEl.textContent = "What did the wheel land on?";
-      table.variables.forEach((name) => {
+
+      promptEl.textContent =
+        "What did the wheel land on?";
+
+      table.variables.forEach(name => {
         addChoice(name, () => showGuessStep(name));
       });
     }
 
     function showGuessStep(name) {
+      $('hint').textContent='';
       wheelVariable = name;
+
       resultEl.classList.add("hidden");
       clearChoices();
-      const others = table.variables.filter((variable) => variable !== name);
-      const shown = shuffled(others).slice(0, MAX_CHOICES);
-      promptEl.textContent = `Which of these is most correlated with ${name}?`;
-      shown.forEach((choice) => {
-        addChoice(choice, () => showResult(choice, shown));
+
+      const others =
+        table.variables.filter(
+          variable => variable !== name
+        );
+
+      const shown =
+        shuffled(others).slice(0, MAX_CHOICES);
+
+      promptEl.textContent =
+        `Which has the strongest correlation with ${name}?`;
+
+      shown.forEach(choice => {
+        addChoice(
+          choice,
+          () => showResult(choice, shown)
+        );
       });
     }
 
     function showResult(choice, shown) {
       const ranked = shown
-        .map((name) => ({
+        .map(name => ({
           name,
-          r: pearson(table.series[wheelVariable], table.series[name])
+          r: pearson(
+            table.series[wheelVariable],
+            table.series[name]
+          )
         }))
-        .sort((a, b) => Math.abs(b.r) - Math.abs(a.r));
+        .sort(
+          (a, b) =>
+            Math.abs(b.r) - Math.abs(a.r)
+        );
 
-      const place = ranked.findIndex((item) => item.name === choice);
+      const place =
+        ranked.findIndex(
+          item => item.name === choice
+        );
+
       const selected = ranked[place];
-
+      $('hint').textContent = '';
+      if (place === 0) confetti();
       clearChoices();
-      promptEl.textContent = `${wheelVariable} and ${choice}`;
+
+      promptEl.textContent =
+        `${wheelVariable} × ${choice}`;
+
       resultEl.classList.remove("hidden");
-      drawScatter(wheelVariable, choice);
-      corrEl.textContent = `Correlation: ${selected.r.toFixed(2)}`;
+
+      drawScatter(
+        wheelVariable,
+        choice
+      );
+
+      corrEl.textContent =
+        selected.r.toFixed(2);
 
       prizeEl.className = "prize";
+      $('best').textContent = place === 0 ? '' : 'Strongest match: '+ranked[0].name+' (r = '+ranked[0].r.toFixed(2)+')';
+
       if (place === 0) {
-        prizeEl.textContent = "Big prize. That was the strongest match.";
+        prizeEl.textContent =
+          "🏆 Big prize! Strongest match.";
+
         prizeEl.classList.add("big");
+
+        gameCard.classList.add("celebrate");
+
+        setTimeout(() => {
+          gameCard.classList.remove("celebrate");
+        }, 700);
+
       } else if (place === 1) {
-        prizeEl.textContent = "Small prize. That was the second-strongest match.";
+        prizeEl.textContent =
+          "🥈 Small prize! Second strongest.";
+
         prizeEl.classList.add("small");
+
       } else {
-        prizeEl.textContent = "No prize this round.";
+        prizeEl.textContent =
+          "No prize this time.";
+
         prizeEl.classList.add("none");
       }
     }
 
     function drawScatter(xName, yName) {
-      const canvas = document.getElementById("plot");
-      const ctx = canvas.getContext("2d");
+      const canvas =
+        document.getElementById("plot");
+
+      const ctx =
+        canvas.getContext("2d");
+
       const xs = table.series[xName];
       const ys = table.series[yName];
+
       const width = canvas.width;
       const height = canvas.height;
-      const pad = { left: 72, right: 24, top: 24, bottom: 64 };
 
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, width, height);
+      const pad = {
+        left: 72,
+        right: 28,
+        top: 32,
+        bottom: 68
+      };
+
+      ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+      ctx.fillStyle = "#101526";
+      ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+      );
 
       const xLow = Math.min(...xs);
       const xHigh = Math.max(...xs);
+
       const yLow = Math.min(...ys);
       const yHigh = Math.max(...ys);
-      const xSpan = (xHigh - xLow || 1) * 1.16;
-      const ySpan = (yHigh - yLow || 1) * 1.16;
-      const xMin = xLow - (xSpan - (xHigh - xLow || 0)) / 2;
-      const xMax = xMin + xSpan;
-      const yMin = yLow - (ySpan - (yHigh - yLow || 0)) / 2;
-      const yMax = yMin + ySpan;
 
-      const xScale = (value) =>
-        pad.left + ((value - xMin) / xSpan) * (width - pad.left - pad.right);
-      const yScale = (value) =>
-        height - pad.bottom - ((value - yMin) / ySpan) * (height - pad.top - pad.bottom);
+      const xRange =
+        xHigh - xLow || 1;
 
-      ctx.strokeStyle = "#1c2430";
+      const yRange =
+        yHigh - yLow || 1;
+
+      const xMin =
+        xLow - xRange * .08;
+
+      const xMax =
+        xHigh + xRange * .08;
+
+      const yMin =
+        yLow - yRange * .08;
+
+      const yMax =
+        yHigh + yRange * .08;
+
+      const xScale = value =>
+        pad.left +
+        ((value - xMin) /
+          (xMax - xMin)) *
+        (width - pad.left - pad.right);
+
+      const yScale = value =>
+        height - pad.bottom -
+        ((value - yMin) /
+          (yMax - yMin)) *
+        (height - pad.top - pad.bottom);
+
+      // Grid
+      ctx.strokeStyle = "#ffffff0e";
+      ctx.lineWidth = 1;
+
+      for (let i = 1; i < 5; i++) {
+        const x =
+          pad.left +
+          (i / 5) *
+          (width - pad.left - pad.right);
+
+        const y =
+          pad.top +
+          (i / 5) *
+          (height - pad.top - pad.bottom);
+
+        ctx.beginPath();
+        ctx.moveTo(x, pad.top);
+        ctx.lineTo(
+          x,
+          height - pad.bottom
+        );
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(
+          pad.left,
+          y
+        );
+        ctx.lineTo(
+          width - pad.right,
+          y
+        );
+        ctx.stroke();
+      }
+
+      // Axes
+      ctx.strokeStyle = "#a9b2cd";
       ctx.lineWidth = 2;
+
       ctx.beginPath();
-      ctx.moveTo(pad.left, pad.top);
-      ctx.lineTo(pad.left, height - pad.bottom);
-      ctx.lineTo(width - pad.right, height - pad.bottom);
+      ctx.moveTo(
+        pad.left,
+        pad.top
+      );
+
+      ctx.lineTo(
+        pad.left,
+        height - pad.bottom
+      );
+
+      ctx.lineTo(
+        width - pad.right,
+        height - pad.bottom
+      );
+
       ctx.stroke();
 
-      ctx.fillStyle = "#1d4e89";
+      // Points
       xs.forEach((x, index) => {
+        const px = xScale(x);
+        const py = yScale(ys[index]);
+
         ctx.beginPath();
-        ctx.arc(xScale(x), yScale(ys[index]), 6, 0, Math.PI * 2);
+        ctx.arc(
+          px,
+          py,
+          6,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle =
+          "rgba(181,161,255,.18)";
+
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(
+          px,
+          py,
+          4,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fillStyle = "#b5a1ff";
         ctx.fill();
       });
 
-      ctx.fillStyle = "#1c2430";
-      ctx.font = "22px Georgia, serif";
+      // Labels
+      ctx.fillStyle = "#a9b2cd";
+      ctx.font =
+        "bold 21px system-ui, sans-serif";
+
       ctx.textAlign = "center";
-      ctx.fillText(xName, (pad.left + width - pad.right) / 2, height - 18);
+
+      ctx.fillText(
+        xName,
+        (pad.left + width - pad.right) / 2,
+        height - 20
+      );
+
       ctx.save();
-      ctx.translate(24, (pad.top + height - pad.bottom) / 2);
+
+      ctx.translate(
+        23,
+        (pad.top + height - pad.bottom) / 2
+      );
+
       ctx.rotate(-Math.PI / 2);
-      ctx.fillText(yName, 0, 0);
+
+      ctx.fillText(
+        yName,
+        0,
+        0
+      );
+
       ctx.restore();
     }
 
-    document.getElementById("again").addEventListener("click", showWheelStep);
-
-    fetch("game_data.csv")
-      .then((response) => {
-        if (!response.ok) throw new Error("Could not load game_data.csv");
-        return response.text();
-      })
-      .then((text) => {
-        table = parseCsv(text);
+    document
+      .getElementById("again")
+      .addEventListener("click", () => {
+        document.querySelectorAll('.particle').forEach(el=>el.remove());
         showWheelStep();
-      })
-      .catch(() => {
-        promptEl.textContent = "Could not load game_data.csv. Start the page with the local server in the README, then open http://localhost:8000.";
-        promptEl.classList.add("error");
       });
+
+    function loadData(text){const next=parseCsv(text);if(next.variables.length<2 || next.years.length<3 || next.variables.some(v=>next.series[v].some(n=>!Number.isFinite(n))))throw new Error('Invalid data');table=next;showWheelStep();}
+    fetch('game_data.csv').then(r=>{if(!r.ok)throw new Error('Missing data');return r.text();}).then(loadData).catch(()=>{promptEl.textContent='Game unavailable';$('hint').textContent='Please ask the host for help.';});
   </script>
 </body>
 </html>

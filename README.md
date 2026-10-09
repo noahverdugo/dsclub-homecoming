@@ -22,3 +22,9 @@ Where the numbers were scraped:
 - **Ice cream consumption:** USDA Economic Research Service, regular ice cream, pounds per person, rounded to one decimal.
 - **Nic Cage movie releases:** films he acted in that year, from the Wikipedia filmography. Producer-only credits and TV are not counted.
 - **Drowning deaths:** US unintentional drowning deaths from CDC. 2005–2010 are from NCHS Data Brief 149. 2011–2016 are unintentional drowning deaths from the NCHS Injury Mortality dataset (that table counts drowning separately from boating, so those years sit a bit lower). 2019–2022 are from CDC MMWR. 2023 is the WISQARS all-ages total. 2017, 2018, and 2024 are still the original numbers because those exact CDC tables were not available here.
+- **US cheese consumption:** USDA ERS Dairy Data
+- **Google searches for goblin:** Google Trends
+- **US divorces:** CDC/NCHS Marriage & Divorce
+- **Natural disasters:** NOAA Billion-Dollar Disasters dataset
+- **US average temperature:** NOAA Climate at a Glance
+- **Babies named Kevin:** SSA baby names data
